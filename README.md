@@ -8,5 +8,5 @@
     - bs4
     - html5lib
 
-*Copyright: Juyeong Shin*
+*Copyright: Juyeong Shin*<br/>
 *맘대로 수정하고 복사하세요. 원작자 누군지 표기 안해도 됩니다~*
