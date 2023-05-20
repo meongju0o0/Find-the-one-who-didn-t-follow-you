@@ -1,8 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 
-following_url = input("following 주소: ")
-follower_url = input("follower 주소: ")
+username = input("username: ")
+
+following_url = "https://github.com/{:}?tab=following".format(username)
+follower_url = "https://github.com/{:}?tab=followers".format(username)
 
 following_html = requests.get(following_url).text
 follower_html = requests.get(follower_url).text
@@ -31,11 +33,10 @@ follower_set = set(follower_list)
 only_following = following_set - follower_set
 only_follower = follower_set - following_set
 
-print("only following: ")
+print("only following:", end=' ')
 for following in only_following:
-    print(following, sep=', ')
+    print(following, end=' | ')
 
-print("only follower: ")
+print("\nonly follower: ", end=' ')
 for follower in only_follower:
-    print(follower, sep=', ')
-
+    print(follower, end=' | ')
