@@ -9,8 +9,8 @@
 ## 파이썬 환경
 - dependencies:
     - python 3.10
-    - requests
     - bs4
+    - requests
     - html5lib
 
 *Copyright: Juyeong Shin*<br/>
