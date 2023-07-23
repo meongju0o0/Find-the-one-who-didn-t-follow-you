@@ -1,42 +1,50 @@
 import requests
 from bs4 import BeautifulSoup
 
-username = input("username: ")
 
-following_url = "https://github.com/{:}?tab=following".format(username)
-follower_url = "https://github.com/{:}?tab=followers".format(username)
+def get_url(link_type, idx):
+    return "https://github.com/{:}?page={:}&tab={:}".format(username, idx, link_type)
 
-following_html = requests.get(following_url).text
-follower_html = requests.get(follower_url).text
 
-following_soup = BeautifulSoup(following_html, 'html5lib')
-follower_soup = BeautifulSoup(follower_html, 'html5lib')
+def get_friend_list(link_type):
+    friend_list = []
 
-following_result = following_soup.select('turbo-frame a span.f4.Link--primary')
-following_list = []
+    for i in range(1, 6):
+        url = get_url(link_type, i)
+        html = requests.get(url).text
+        soup = BeautifulSoup(html, 'html5lib')
+        id_result = soup.select('span.Link--secondary.pl-1')
 
-follower_result = follower_soup.select('turbo-frame a span.f4.Link--primary')
-follower_list = []
+        for id in id_result:
+            friend_list.append(id.text)
 
-for following in following_result:
-    following_list.append(following.text)
+        friend_list = [_ for _ in friend_list if _ != '']
 
-for follower in follower_result:
-    follower_list.append(follower.text)
+    return friend_list
 
-following_list = [_ for _ in following_list if _ != '']
-follower_list = [_ for _ in follower_list if _ != '']
 
-following_set = set(following_list)
-follower_set = set(follower_list)
+def get_only_list(following_list, follower_list):
+    following_set = set(following_list)
+    follower_set = set(follower_list)
 
-only_following = following_set - follower_set
-only_follower = follower_set - following_set
+    only_follower = follower_set - following_set
+    only_following = following_set - follower_set
 
-print("only following:", end=' ')
-for following in only_following:
-    print(following, end=' | ')
+    return only_follower, only_following
 
-print("\nonly follower: ", end=' ')
-for follower in only_follower:
-    print(follower, end=' | ')
+
+if __name__ == '__main__':
+    username = input("username: ")
+
+    following_list = get_friend_list('following')
+    follower_list = get_friend_list('followers')
+
+    only_follower, only_following = get_only_list(following_list, follower_list)
+
+    print("only follower: ", end=' ')
+    for follower in only_follower:
+        print(follower, end=' | ')
+
+    print("\nonly following:", end=' ')
+    for following in only_following:
+        print(following, end=' | ')
