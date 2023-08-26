@@ -14,6 +14,7 @@ def get_friend_list(link_type):
         html = requests.get(url).text
         soup = BeautifulSoup(html, 'html5lib')
         id_result = soup.select('span.Link--secondary.pl-1')
+        id_result += soup.select('span.Link--secondary')
 
         for id in id_result:
             friend_list.append(id.text)
