@@ -13,5 +13,5 @@
     - requests
     - html5lib
 
-*Copyright: Juyeong Shin*<br/>
-*맘대로 수정하고 복사하세요. 원작자 누군지 표기 안 해도 됩니다~*
+### Licnese
+meongju0o0 uses MIT License.
